@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import ThemeToggle from "@/components/ThemeToggle";
-
 
 
 export const metadata: Metadata = {
-  title: "Nextagram",
+  title: "Nextagram Auth",
   description: "Copia de instagram",
-  icons: {
-    icon: "/favicon.png",
-  },
 };
 
 export default function RootLayout({
@@ -20,11 +14,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
+
       >
-         <header className="flex justify-end bg-white dark:bg-black p-4">
-          <ThemeToggle />
-        </header>
-        {children}
+        <main  className="bg-white dark:bg-black ">
+            {children}
+
+        </main>
       </body>
     </html>
   );
