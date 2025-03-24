@@ -36,3 +36,20 @@ export async function register(formData: FormData) {
         }
     }
 }
+
+export async function login(formData: FormData) {
+    const email = formData.get("email");
+    const password = formData.get("password");
+    try {
+        const response = await axiosInstance.post("/auth/login", { email, password });
+        return response.data;
+    } catch (error) {
+        if (error instanceof AxiosError && error.response?.data.errors) {
+            return { errors: error.response.data.errors };
+        }
+        else if(error instanceof AxiosError && error.response?.data.error){
+            return { errors: { general: [error.response.data.error] } };
+        }
+
+    }
+}

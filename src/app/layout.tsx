@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ThemeToggle from "@/components/ThemeToggle";
 import { ToastContainer } from "react-toastify";
+import { ThemeToggle } from "@/components/ThemeToggle";
+
+import { ThemeProvider } from "@/components/theme-provider";
 
 
 
@@ -19,15 +21,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body
-     
-      >
-         <header className="flex justify-end bg-white dark:bg-black p-4">
-          <ThemeToggle />
-        </header>
-        {children}
-        <ToastContainer />
+    <html lang="es" suppressHydrationWarning>
+      <head />
+      <body >
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+          <header className="flex justify-end p-4">
+            <ThemeToggle />
+          </header>
+          {children}
+          <ToastContainer />
+        </ThemeProvider>
       </body>
     </html>
   );

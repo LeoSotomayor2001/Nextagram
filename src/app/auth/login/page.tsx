@@ -1,31 +1,73 @@
+"use client";
+import { login } from "@/app/actions/auth-actions";
 import { roboto } from "@/fonts";
-import Link from "next/link";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
+
+type ErrorsLogin = {
+  email?: string;
+  password?: string;
+  general?: string[]
+}
 export default function LoginPage() {
+
+  const router = useRouter();
+  const [errors, setErrors] = useState<ErrorsLogin>({});
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const result = await login(formData);
+    if (result?.errors) {
+      setErrors(result.errors); // Almacena los errores en el estado
+      setTimeout(() => {
+        setErrors({});
+      }, 3000);
+    } else if (result?.user) {
+      localStorage.setItem("user", JSON.stringify(result.user));
+      localStorage.setItem("token", result.token);
+      router.push("/");
+      toast.success("Inicio de sesión exitoso. Redirigiendo...");
+    } else {
+
+      toast.error("Ocurrió un error inesperado. Inténtalo de nuevo.");
+    }
+  };
   return (
     <div className="flex justify-center items-center h-screen flex-col p-4">
-      {/* Formulario de inicio de sesión */}
-      <form className="p-6 rounded-lg shadow-md w-full md:w-96 flex flex-col border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-300">
-        {/* Título */}
+
+      <form className="p-6 rounded-lg shadow-md w-full md:w-96 flex flex-col border border-gray-200 dark:border-gray-700 
+        bg-white dark:bg-gray-900 transition-colors duration-300"
+        onSubmit={handleSubmit}
+      >
         <h1 className={`${roboto.className} text-3xl md:text-4xl mb-4 font-bold text-gray-900 dark:text-white text-center`}>
           Nextagram
         </h1>
-
-        {/* Campo de correo electrónico */}
+        {errors.general && (
+          <div className="bg-red-500 text-sm mb-4 text-center text-white p-3">
+            {errors.general.map((error, index) => (
+              <p key={index}>{error}</p>
+            ))}
+          </div>
+        )}
         <input
           type="email"
           name="email"
           placeholder="Correo electrónico"
           className="bg-white dark:bg-gray-800 mb-4 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors w-full"
         />
+        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
-        {/* Campo de contraseña */}
+
         <input
           type="password"
           name="password"
           placeholder="Contraseña"
           className="bg-white dark:bg-gray-800 mb-4 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors w-full"
         />
+        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
 
         {/* Botón de inicio de sesión */}
         <button

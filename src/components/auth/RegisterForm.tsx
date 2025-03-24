@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { register } from "@/app/actions/auth-actions";
-import { roboto } from "@/fonts";
+
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { roboto } from "@/fonts";
 
 type ErrorsRegister = {
     email?: string;
