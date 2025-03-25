@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -30,9 +29,6 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-          <header className="flex justify-end p-4">
-            <ThemeToggle />
-          </header>
           {children}
           <ToastContainer />
         </ThemeProvider>
