@@ -3,7 +3,7 @@ import { roboto } from "@/fonts";
 import { ThemeToggle } from "../ThemeToggle";
 import Link from "next/link";
 import { IoHome } from "react-icons/io5";
-import { FaRegPlusSquare, FaSearch } from "react-icons/fa";
+import {  FaSearch } from "react-icons/fa";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { FaRegHeart } from "react-icons/fa6";
 import { Button } from "../ui/button";
@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import UserPortrait from "./UserProtrait";
+import { CreatePostModal } from "./CreatePostModal";
 
 export default function Sidebar() {
     const user = JSON.parse(localStorage.getItem('user')!);
@@ -89,13 +90,7 @@ export default function Sidebar() {
                         </Link>
                     </li>
                     <li>
-                        <Link
-                            href="/dashboard/create"
-                            className="flex items-center gap-2 w-full p-3 text-gray-600 dark:text-gray-400 text-base md:text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-sky-500 dark:hover:text-sky-500 rounded-md transition-colors"
-                        >
-                            <FaRegPlusSquare className="size-6" />
-                            Crear
-                        </Link>
+                        <CreatePostModal />
                     </li>
                     <li>
                         <Link
