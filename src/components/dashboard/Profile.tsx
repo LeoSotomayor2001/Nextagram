@@ -6,18 +6,19 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Spinner from '../spinner/Spinner'
 import axios from 'axios'
-import { User } from '@/types'
+import { Post, User } from '@/types'
 import Link from 'next/link'
 import UserPortrait from './UserProtrait'
+import Posts from './Posts'
 
 export default function Profile() {
     const params = useParams<{ username: string }>()
     const username = params.username
     const [user, setUser] = useState<User | null>(null)
+    const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
-
     useEffect(() => {
         const fetchUser = async () => {
             setLoading(true)
@@ -34,6 +35,7 @@ export default function Profile() {
                     },
                 })
                 setUser(response.data)
+                setPosts(response.data.posts)
             } catch (err: unknown) {
                 if (axios.isAxiosError(err)) {
                     setError(err.response?.data?.error || 'Error al cargar el perfil');
@@ -72,7 +74,8 @@ export default function Profile() {
             </div>
         )
     }
-   
+
+
     return (
         <div className="my-5">
             <div className="flex items-center justify-center gap-5">
@@ -102,6 +105,17 @@ export default function Profile() {
                     </section>
                 </div>
             </div>
+
+            <section className="w-full mx-auto py-10 px-6">
+                <h2 className="text-3xl text-black dark:text-white text-center mb-8">Publicaciones</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {posts?.map((post: Post) => (
+                        <Posts key={post.id} post={post} />
+                    ))}
+                </div>
+            </section>
+
+
         </div>
     )
 }

@@ -17,7 +17,7 @@ export default function RootLayout({
     <AuthGuard>
       <div className="md:flex">
         <Sidebar />
-        <main className="flex-1 h-screen">
+        <main className="flex-1 h-screen overflow-y-scroll">
           {children}
         </main>
       </div>

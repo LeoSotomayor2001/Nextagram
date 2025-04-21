@@ -6,9 +6,16 @@ export type User = {
     email: string
     image: string
     lastname:string
-    // Agrega otros campos necesarios
-}
 
+}
+export type Post={
+    id: number
+    title: string
+    description: string
+    file:string
+    file_type:string
+    user_id: User['id']
+}
 export type ErrorsUser = {
     email?: string;
     password?: string;

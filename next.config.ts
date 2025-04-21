@@ -9,7 +9,13 @@ const nextConfig: NextConfig = {
         port: '8000',
         pathname: '/api/imagen/**',
       },
-      // Si tienes otros dominios para imágenes, añádelos aquí
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '8000',
+        pathname: '/api/post/**',
+      },
+
     ],
   },
 };
