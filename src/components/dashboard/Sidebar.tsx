@@ -6,41 +6,14 @@ import { IoHome } from "react-icons/io5";
 import {  FaSearch } from "react-icons/fa";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { FaRegHeart } from "react-icons/fa6";
-import { Button } from "../ui/button";
-import axiosInstance from "@/utils/axiosInstance";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+
 import UserPortrait from "./UserProtrait";
 import { CreatePostModal } from "./CreatePostModal";
+import LogoutButton from "./LogoutButton";
 
 export default function Sidebar() {
     const user = JSON.parse(localStorage.getItem('user')!);
-    const router=useRouter()
-    const logout= async () =>{
-        try{
-            const token=localStorage.getItem('token')
-            const response = await axiosInstance.post(`/logout`,{}, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            localStorage.clear()
-            toast.success(response.data.message)
-            router.push('/auth/login')
-        }
-        catch(error:unknown){
-            console.log(error)
-            if (axios.isAxiosError(error)) {
-                toast.error(error.response?.data.error || 'Error al cerrar sesión')
-                if(error.response?.data.error==='Sesión expirada'){
-                    localStorage.clear()
-                    router.push('/auth/login')
-                }
-            }
-        }
 
-    }
     return (
         <aside className="w-64 border-gray-200 border-r">
             <header className="flex justify-between items-center p-4">
@@ -103,14 +76,7 @@ export default function Sidebar() {
                     </li>
 
                     <li>
-                        <Button
-                            variant={'destructive'}
-                            className="w-full cursor-pointer "
-                            onClick={logout}
-                        >
-   
-                            Cerrar sesión
-                        </Button>
+                        <LogoutButton />
                     </li>
 
                 </ul>

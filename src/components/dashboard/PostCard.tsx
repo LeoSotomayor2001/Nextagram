@@ -8,7 +8,7 @@ type Props = {
     post: Post;
 };
 
-export default function Posts({ post }: Props) {
+export default function PostCard({ post }: Props) {
     return (
         <Card className="w-full relative group overflow-hidden rounded-xl cursor-pointer">
             <CardHeader>

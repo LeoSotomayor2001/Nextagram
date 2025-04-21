@@ -1,52 +1,25 @@
 'use client'
 import { useParams } from 'next/navigation'
 import { Button } from "../ui/button"
-import axiosInstance from '@/utils/axiosInstance'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Spinner from '../spinner/Spinner'
-import axios from 'axios'
-import { Post, User } from '@/types'
+
+import { Post,  } from '@/types'
 import Link from 'next/link'
 import UserPortrait from './UserProtrait'
-import Posts from './Posts'
+import PostCard from './PostCard'
+import LogoutButton from './LogoutButton'
+import { useUserStore } from '@/stores/useUserStore'
 
 export default function Profile() {
     const params = useParams<{ username: string }>()
     const username = params.username
-    const [user, setUser] = useState<User | null>(null)
-    const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
+    const { user, posts, loading, error, fetchUser } = useUserStore();
     const router = useRouter()
     useEffect(() => {
-        const fetchUser = async () => {
-            setLoading(true)
-            try {
-                const token = localStorage.getItem('token')
-                if (!token) {
-                    router.push('/auth/login')
-                    return
-                }
-
-                const response = await axiosInstance.get(`/users/${username}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                setUser(response.data)
-                setPosts(response.data.posts)
-            } catch (err: unknown) {
-                if (axios.isAxiosError(err)) {
-                    setError(err.response?.data?.error || 'Error al cargar el perfil');
-                }
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchUser()
-    }, [username, router])
+        fetchUser(username); // Llamar la función global al montar el componente
+      }, [username]);
 
     if (loading) {
         return (
@@ -55,14 +28,17 @@ export default function Profile() {
             </div>
         )
     }
-
     if (error) {
         return (
             <div className="flex flex-col items-center justify-center h-screen gap-4">
                 <p className="text-red-500 text-lg">{error}</p>
-                <Button onClick={() => router.push('/dashboard')}>
-                    Volver al dashboard
-                </Button>
+                <div className='flex gap-2 w-46 '>
+                    <Button onClick={() => router.push('/dashboard')} className='cursor-pointer'>
+                        Volver al dashboard
+                    </Button>
+                    <LogoutButton />
+
+                </div>
             </div>
         )
     }
@@ -108,9 +84,9 @@ export default function Profile() {
 
             <section className="w-full mx-auto py-10 px-6">
                 <h2 className="text-3xl text-black dark:text-white text-center mb-8">Publicaciones</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ">
                     {posts?.map((post: Post) => (
-                        <Posts key={post.id} post={post} />
+                        <PostCard key={post.id} post={post} />
                     ))}
                 </div>
             </section>

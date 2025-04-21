@@ -5,15 +5,15 @@ export type User = {
     username: string
     email: string
     image: string
-    lastname:string
+    lastname: string
 
 }
-export type Post={
+export type Post = {
     id: number
     title: string
     description: string
-    file:string
-    file_type:string
+    file: string
+    file_type: string
     user_id: User['id']
 }
 export type ErrorsUser = {
@@ -24,4 +24,12 @@ export type ErrorsUser = {
     general?: string
     lastname?: string
     image?: string
-  }
+}
+
+export type ErrorsPost = {
+    title?: string;
+    description?: string;
+    file?: string;
+    file_type?: string;
+    general?: string
+}
