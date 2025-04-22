@@ -70,23 +70,23 @@ export function Dropzone({ onFileAccepted, onFileRemoved, acceptedFile }: Dropzo
         <div className="relative group">
           {preview ? (
             <div className="relative">
-              <div className="w-full h-48 relative rounded-lg overflow-hidden">
-                <Image
-                  src={preview}
-                  alt="Preview"
-                  fill
-                  className="object-cover"
-                  unoptimized={true} // Necesario para imágenes locales/blobs
-                />
-              </div>
-              <button
-                type="button"
-                onClick={removeFile}
-                className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors"
-              >
-                <FiX className="h-4 w-4" />
-              </button>
+            <div className="w-full h-72 relative rounded-lg overflow-y-auto">
+              <Image
+                src={preview}
+                alt="Preview"
+                fill
+                className="object-contain"
+                unoptimized={true} // Necesario para imágenes locales/blobs
+              />
             </div>
+            <button
+              type="button"
+              onClick={removeFile}
+              className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors"
+            >
+              <FiX className="h-4 w-4" />
+            </button>
+          </div>
           ) : (
             <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 flex items-center justify-between">
               <span className="truncate">{acceptedFile.name}</span>

@@ -6,6 +6,7 @@ export type User = {
     email: string
     image: string
     lastname: string
+    postCount: number
 
 }
 export type Post = {

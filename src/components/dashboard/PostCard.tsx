@@ -12,13 +12,13 @@ export default function PostCard({ post }: Props) {
     return (
         <Card className="w-full relative group overflow-hidden rounded-xl cursor-pointer">
             <CardHeader>
-                <CardTitle className="text-xl">{post.title}</CardTitle>
-                <CardDescription>{post.description}</CardDescription>
+                <CardTitle className="text-2xl">{post.title}</CardTitle>
+                <CardDescription className="text-xl">{post.description}</CardDescription>
             </CardHeader>
 
             <CardContent className="px-2 pb-1 relative">
                 {post.file_type.startsWith("image") ? (
-                    <div className="relative w-full h-72">
+                    <div className="relative w-full h-98">
                         {/* Overlay SOLO para imágenes */}
                         <div className="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
                             <div className="flex gap-10 text-white text-2xl items-center">
@@ -33,13 +33,12 @@ export default function PostCard({ post }: Props) {
                             </div>
                         </div>
 
-                        {/* Imagen */}
                         <Image
                             src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${post.file}`}
                             alt={post.description || post.title}
                             fill
                             priority
-                            className="object-cover rounded-lg"
+                            className="rounded-lg"
                         />
                     </div>
                 ) : post.file_type.startsWith("video") ? (
@@ -50,7 +49,7 @@ export default function PostCard({ post }: Props) {
                             width="100%"
                             height="100%"
                             className="rounded-lg"
-                            
+
                         />
                     </div>
                 ) : (

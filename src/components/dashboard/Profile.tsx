@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Spinner from '../spinner/Spinner'
 
-import { Post,  } from '@/types'
+import { Post, } from '@/types'
 import Link from 'next/link'
 import UserPortrait from './UserProtrait'
 import PostCard from './PostCard'
@@ -19,7 +19,7 @@ export default function Profile() {
     const router = useRouter()
     useEffect(() => {
         fetchUser(username); // Llamar la función global al montar el componente
-      }, [username]);
+    }, [username]);
 
     if (loading) {
         return (
@@ -51,30 +51,32 @@ export default function Profile() {
         )
     }
 
-
     return (
         <div className="my-5">
-            <div className="flex items-center justify-center gap-5">
+            <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 p-4">
                 <UserPortrait image={user.image} />
-                <div>
-                    <div className="flex gap-3 justify-center items-center">
+
+                <div className="text-center md:text-left w-full md:w-auto">
+                    <div className="flex flex-col gap-4 md:gap-3 md:flex-row md:items-center md:justify-start">
                         <h2 className="text-2xl text-black dark:text-white">
                             {user.name + ' ' + user.lastname} (@{user.username})
                         </h2>
-                        <div className="flex gap-4 my-3">
+
+                        <div className="flex flex-col sm:flex-row gap-3">
                             <Link href={`/dashboard/profile/edit`}>
-                                <Button variant="outline" size="lg" className="cursor-pointer">
+                                <Button variant="outline" size="lg" className="cursor-pointer w-full sm:w-auto">
                                     Editar perfil
                                 </Button>
                             </Link>
-                            <Button variant="outline" size="lg" className="cursor-pointer">
+                            <Button variant="outline" size="lg" className="cursor-pointer w-full sm:w-auto">
                                 Ver archivo
                             </Button>
                         </div>
                     </div>
-                    <section className="mt-3">
-                        <ul className="flex gap-4">
-                            <li>Publicaciones</li>
+
+                    <section className="mt-4">
+                        <ul className="flex flex-wrap gap-4 justify-center md:justify-start text-gray-700 dark:text-gray-300">
+                            <li>Publicaciones ({user.postCount})</li>
                             <li>Seguidores</li>
                             <li>Seguidos</li>
                         </ul>
@@ -82,13 +84,19 @@ export default function Profile() {
                 </div>
             </div>
 
+
             <section className="w-full mx-auto py-10 px-6">
                 <h2 className="text-3xl text-black dark:text-white text-center mb-8">Publicaciones</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ">
-                    {posts?.map((post: Post) => (
-                        <PostCard key={post.id} post={post} />
-                    ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {posts.length === 0 ? (
+                        <div className="col-span-full text-center text-gray-500 dark:text-gray-400 py-8">
+                            No hay publicaciones
+                        </div>
+                    ) : (
+                        posts.map((post: Post) => <PostCard key={post.id} post={post} />)
+                    )}
                 </div>
+
             </section>
 
 

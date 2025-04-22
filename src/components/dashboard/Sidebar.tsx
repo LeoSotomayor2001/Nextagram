@@ -15,7 +15,7 @@ export default function Sidebar() {
     const user = JSON.parse(localStorage.getItem('user')!);
 
     return (
-        <aside className="w-64 border-gray-200 border-r">
+        <aside className="md:w-64 md:border-gray-200 border-r w-full">
             <header className="flex justify-between items-center p-4">
                 <Link href={"/dashboard"} className={`${roboto.className} text-2xl md:text-3xl mb-4 font-bold text-gray-900 dark:text-white`}>
                     Nextagram
