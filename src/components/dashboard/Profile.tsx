@@ -18,8 +18,9 @@ export default function Profile() {
     const { user, posts, loading, error, fetchUser } = useUserStore();
     const router = useRouter()
     useEffect(() => {
-        fetchUser(username); // Llamar la función global al montar el componente
-    }, [username]);
+
+        fetchUser(username); 
+    }, [username, fetchUser]);
 
     if (loading) {
         return (
@@ -87,7 +88,7 @@ export default function Profile() {
 
             <section className="w-full mx-auto py-10 px-6">
                 <h2 className="text-3xl text-black dark:text-white text-center mb-8">Publicaciones</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-4 gap-4">
                     {posts.length === 0 ? (
                         <div className="col-span-full text-center text-gray-500 dark:text-gray-400 py-8">
                             No hay publicaciones
