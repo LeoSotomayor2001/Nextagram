@@ -19,6 +19,7 @@ export default function RootLayout({
         <Sidebar />
         <main className="flex-1 h-screen overflow-y-scroll">
           {children}
+          
         </main>
       </div>
     </AuthGuard>

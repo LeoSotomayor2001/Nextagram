@@ -11,6 +11,7 @@ import UserPortrait from './UserProtrait'
 import PostCard from './PostCard'
 import LogoutButton from './LogoutButton'
 import { useUserStore } from '@/stores/useUserStore'
+import PostModal from './PostModal'
 
 export default function Profile() {
     const params = useParams<{ username: string }>()
@@ -85,7 +86,6 @@ export default function Profile() {
                 </div>
             </div>
 
-
             <section className="w-full mx-auto py-10 px-6">
                 <h2 className="text-3xl text-black dark:text-white text-center mb-8">Publicaciones</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-4 gap-4">
@@ -100,7 +100,7 @@ export default function Profile() {
 
             </section>
 
-
+            <PostModal /> 
         </div>
     )
 }

@@ -14,8 +14,8 @@ import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
 import { ErrorsPost } from "@/types";
 import { useUserStore } from "@/stores/useUserStore";
-import axios from "axios";
 import Spinner from "../spinner/Spinner";
+import handleAxiosError from "@/utils/axiosError";
 
 export function CreatePostModal() {
   const [file, setFile] = useState<File | null>(null);
@@ -52,6 +52,11 @@ export function CreatePostModal() {
     if (file) {
       formData.append("file", file);
     }
+    if (!title || !description) {
+      toast.error("Todos los campos son obligatorios.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await axiosInstance.post(url, formData, {
@@ -62,7 +67,7 @@ export function CreatePostModal() {
         onUploadProgress: (progressEvent) => {
           const percent = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
           setUploadProgress(percent);
-          // Aquí puedes actualizar un estado de progreso si quieres mostrar una barra
+
         },
       });
 
@@ -74,32 +79,11 @@ export function CreatePostModal() {
       setTitle("");
       setFile(null);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.code === "ECONNABORTED") {
-          toast.error("La solicitud tardó demasiado y fue cancelada. Intenta de nuevo.");
-          return;
-        }
-        const responseErrors = error.response?.data?.errors;
-        const generalError = error.response?.data?.error;
-        if (generalError) {
-          toast.error(generalError);
-        }
-
-        if (responseErrors) {
-          setErrors(responseErrors);
-          setTimeout(() => {
-            setErrors({});
-          }, 3000);
-        }
-      } else {
-        toast.error("Ocurrió un error inesperado.");
-      }
+      handleAxiosError<ErrorsPost>(error, setErrors);
     }
     finally {
       setLoading(false);
     }
-
-
   };
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -113,7 +97,8 @@ export function CreatePostModal() {
           Crear
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[90vw] max-w-[425px]">
+      <DialogContent className="w-[95vw] sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+
         <DialogHeader>
           <DialogTitle>Crear nueva publicación</DialogTitle>
         </DialogHeader>
@@ -142,8 +127,7 @@ export function CreatePostModal() {
             </div>
             {errors?.title && <p className="text-sm text-red-500 ml-2">{errors.title}</p>}
 
-            {/* Campo de descripción */}
-            <div className="relative">
+            <div>
               <textarea
                 placeholder="Descripción"
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 shadow-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all resize-none"
@@ -166,13 +150,13 @@ export function CreatePostModal() {
                 <p className="text-sm text-red-500 mt-2 ml-2">{errors.description}</p>
               )}
             </div>
-
             {/* Picker de emojis */}
             {showPicker && (
-              <div className="absolute bottom-16 left-0 z-50 shadow-lg rounded-xl overflow-hidden border dark:border-gray-700 bg-white dark:bg-gray-800">
+              <div className="absolute z-50 -top-15 right-15 shadow-lg rounded-xl overflow-hidden border dark:border-gray-700 bg-white dark:bg-gray-800">
                 <EmojiPicker onEmojiClick={handleEmojiClick} />
               </div>
             )}
+
           </div>
 
           <Dropzone
@@ -182,9 +166,11 @@ export function CreatePostModal() {
           />
 
           <Button type="submit" className="w-full mt-4 cursor-pointer p-5" disabled={loading}>
-          {loading ? <div className="text-sm text-gray-500 flex gap-2"><Spinner /> <p className="text-xl"> {uploadProgress}%</p> </div> : "Publicar"}
+            {loading ? <div className="text-sm text-gray-500 flex gap-2"><Spinner /> <p className="text-xl"> {uploadProgress}%</p> </div> : "Publicar"}
 
           </Button>
+          {loading && <progress value={uploadProgress} max="100" className="w-full mt-2" />}
+
         </form>
       </DialogContent>
     </Dialog>

@@ -3,14 +3,22 @@ import Image from "next/image";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { FaComment, FaHeart } from "react-icons/fa";
 import ReactPlayer from 'react-player'
+import { usePostStore } from "@/stores/usePostStore";
 
 type Props = {
     post: Post;
 };
 
 export default function PostCard({ post }: Props) {
+    const { openModal,fetchPost } = usePostStore();
+
+    const handleClick= (id:number) =>{
+        window.history.pushState(null, '', `/dashboard/post/${id}`);
+        fetchPost(id.toString());
+        openModal();
+    }
     return (
-        <Card className="w-full relative group overflow-hidden rounded-xl cursor-pointer">
+        <Card className="w-full relative group overflow-hidden rounded-xl cursor-pointer" onClick={() => handleClick(post.id)}>
             <CardHeader>
                 <CardTitle className="text-2xl">{post.title}</CardTitle>
                 <CardDescription className="text-xl">{post.description}</CardDescription>
@@ -56,6 +64,7 @@ export default function PostCard({ post }: Props) {
                     <p className="text-sm py-4">Tipo de archivo no soportado.</p>
                 )}
             </CardContent>
+           
         </Card>
     );
 }

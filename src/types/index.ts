@@ -28,9 +28,10 @@ export type ErrorsUser = {
 }
 
 export type ErrorsPost = {
-    title?: string;
-    description?: string;
-    file?: string;
-    file_type?: string;
-    general?: string
-}
+    title?: string[];
+    description?: string[];
+    file?: string[];
+    file_type?: string[];
+    general?: string[];
+  };
+  
