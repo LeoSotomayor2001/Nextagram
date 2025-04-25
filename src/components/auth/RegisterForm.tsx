@@ -25,6 +25,7 @@ export default function RegisterForm() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const result = await register(formData);
+        console.log(result)
         if (result?.errors) {
             setErrors(result.errors); // Almacena los errores en el estado
             setTimeout(() => {

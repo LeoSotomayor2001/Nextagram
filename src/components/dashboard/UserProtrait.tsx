@@ -11,7 +11,7 @@ type Props = {
 export default function UserPortrait({ 
     image, 
     styles = 'w-32 h-32 md:w-46 md:h-46 rounded-full shadow-lg',
-    aspectRatio = 'aspect-square' // Valor por defecto (1:1)
+    aspectRatio = 'aspect-square' 
 }: Props) {
     const [src, setSrc] = useState(
         image ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/imagen/${image}` : '/usuario.svg'

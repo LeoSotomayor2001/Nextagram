@@ -8,10 +8,10 @@ import Spinner from '../spinner/Spinner'
 import { Post, } from '@/types'
 import Link from 'next/link'
 import UserPortrait from './UserProtrait'
-import PostCard from './PostCard'
+import PostCard from '../posts/PostCard'
 import LogoutButton from './LogoutButton'
 import { useUserStore } from '@/stores/useUserStore'
-import PostModal from './PostModal'
+import PostModal from '../posts/PostModal'
 
 export default function Profile() {
     const params = useParams<{ username: string }>()

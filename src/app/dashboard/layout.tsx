@@ -1,4 +1,4 @@
-import AuthGuard from "@/components/auth/AuthGuard";
+import AuthGuard from "@/components/Guards/AuthGuard";
 import Sidebar from "@/components/dashboard/Sidebar";
 import type { Metadata } from "next";
 

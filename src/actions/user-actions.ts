@@ -1,4 +1,3 @@
-"use server";
 
 import { ErrorsUser, User } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
@@ -27,7 +26,6 @@ export async function updateUser(formData: FormData, token: string): Promise<{
     if (imageFile instanceof File && imageFile.size > 0) {
       payload.append('image', imageFile);
     }
-
     const response = await axiosInstance.post(`/users/${id}`, payload, {
       headers: {
         'Authorization': `Bearer ${token}`,

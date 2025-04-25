@@ -4,6 +4,7 @@ import { Post } from "@/types";
 
 interface PostModalState {
   isOpen: boolean;
+  loading:boolean;
   post: Post | null;
   openModal: () => void;
   closeModal: () => void;
@@ -12,11 +13,13 @@ interface PostModalState {
 
 export const usePostStore = create<PostModalState>((set) => ({
   isOpen: false,
+  loading:true,
   post: null,
   openModal: () => set({ isOpen: true }),
   closeModal: () => set({ isOpen: false, post: null }),
   fetchPost: async (postId) => {
     const token = localStorage.getItem("token");
+    set({loading:true})
     try {
       const response = await axiosInstance.get(`/posts/${postId}`,{
         headers: {
@@ -26,6 +29,9 @@ export const usePostStore = create<PostModalState>((set) => ({
       set({ post: response.data });
     } catch (err) {
       console.error("Error al obtener el post:", err);
+    }
+    finally{
+      set({loading:false})
     }
   },
 }));

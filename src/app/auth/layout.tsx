@@ -1,4 +1,4 @@
-import DashboardGuard from "@/components/dashboard/DashboardGuard";
+import DashboardGuard from "@/components/Guards/DashboardGuard";
 import type { Metadata } from "next";
 
 

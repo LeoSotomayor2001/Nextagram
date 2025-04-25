@@ -3,17 +3,24 @@ import { roboto } from "@/fonts";
 import { ThemeToggle } from "../ThemeToggle";
 import Link from "next/link";
 import { IoHome } from "react-icons/io5";
-import {  FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { FaRegHeart } from "react-icons/fa6";
 
 import UserPortrait from "./UserProtrait";
-import { CreatePostModal } from "./CreatePostModal";
+
 import LogoutButton from "./LogoutButton";
+import { CreatePostModal } from "../posts/CreatePostModal";
+import { useUserStore } from "@/stores/useUserStore";
+import { useEffect } from "react";
 
 export default function Sidebar() {
-    const user = JSON.parse(localStorage.getItem('user')!);
-
+    const userData = JSON.parse(localStorage.getItem('user')!);
+    const username = userData.username
+    const { user, fetchUser } = useUserStore();
+    useEffect(() => {
+        fetchUser(username);
+    }, [username, fetchUser]);
     return (
         <aside className="md:w-64 md:border-gray-200 border-r w-full">
             <header className="flex justify-between items-center p-4">
@@ -70,7 +77,7 @@ export default function Sidebar() {
                             href={`/dashboard/profile/${user.username}`} // Reemplaza con el valor dinámico del usuario logueado
                             className="flex items-center gap-2 w-full p-3 text-gray-600 dark:text-gray-400 text-base md:text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-sky-500 dark:hover:text-sky-500 rounded-md transition-colors"
                         >
-                            <UserPortrait styles="w-6 h-6" image={user.image}/>
+                            <UserPortrait styles="w-6 h-6" image={user.image} />
                             Perfil
                         </Link>
                     </li>

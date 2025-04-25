@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { FaRegPlusSquare, FaSmile } from "react-icons/fa";
-import { Dropzone } from "./Dropzone";
+
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import axiosInstance from "@/utils/axiosInstance";
 import { toast } from "react-toastify";
@@ -16,6 +16,7 @@ import { ErrorsPost } from "@/types";
 import { useUserStore } from "@/stores/useUserStore";
 import Spinner from "../spinner/Spinner";
 import handleAxiosError from "@/utils/axiosError";
+import { Dropzone } from "./Dropzone";
 
 export function CreatePostModal() {
   const [file, setFile] = useState<File | null>(null);

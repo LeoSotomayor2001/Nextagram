@@ -12,7 +12,6 @@ export default function EditProfilePage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // Cargar usuario del localStorage solo en el cliente
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
