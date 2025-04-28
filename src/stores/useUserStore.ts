@@ -8,7 +8,7 @@ interface UserState {
   posts: Post[];
   loading: boolean;
   error: string | null;
-  fetchUser: (username: string) => Promise<void>;
+  fetchProfile: (username: string) => Promise<void>;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -17,8 +17,13 @@ export const useUserStore = create<UserState>((set) => ({
     loading: false,
     error: null,
 
-  fetchUser: async (username) => {
-    set({ loading: true });
+  fetchProfile: async (username) => {
+     set({
+    loading: true,
+    user: {} as User, // Limpia los datos del usuario previo
+    posts: [],  // Limpia los posts previos
+    error: null,
+  });
     try {
       const token = localStorage.getItem("token");
 

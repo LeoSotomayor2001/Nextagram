@@ -14,8 +14,7 @@ export default function PostCard({ post }: Props) {
     const { openModal, fetchPost } = usePostStore();
 
     const handleClick = (id: number) => {
-        window.history.pushState(null, '', `/dashboard/post/${id}`);
-        fetchPost(id.toString());
+        fetchPost(id);
         openModal();
     };
   

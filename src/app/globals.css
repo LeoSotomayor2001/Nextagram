@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+.swal2-container {
+  z-index: 1500 !important;
+  
+}
 :root {
 
   --radius: 0.625rem;

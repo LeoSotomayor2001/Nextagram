@@ -12,7 +12,7 @@ const handleAxiosError = <T extends Record<string, string[]>>(
     }
 
     const responseErrors = error.response?.data?.errors;
-    const generalError = error.response?.data?.error;
+    const generalError = error.response?.data?.error || error.response?.data?.message;
 
     if (generalError) toast.error(generalError);
 

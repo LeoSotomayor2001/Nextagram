@@ -16,14 +16,13 @@ import PostModal from '../posts/PostModal'
 export default function Profile() {
     const params = useParams<{ username: string }>()
     const username = params.username
-    const { user, posts, loading, error, fetchUser } = useUserStore();
+    const { user, posts, loading, error, fetchProfile } = useUserStore();
     const router = useRouter()
     useEffect(() => {
+        fetchProfile(username); 
+    }, [username, fetchProfile]);
 
-        fetchUser(username); 
-    }, [username, fetchUser]);
-
-    if (loading) {
+    if (loading ) {
         return (
             <div className="flex justify-center items-center h-screen">
                 <Spinner />
@@ -55,6 +54,7 @@ export default function Profile() {
 
     return (
         <div className="my-5">
+    
             <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 p-4">
                 <UserPortrait image={user.image} />
 
