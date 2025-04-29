@@ -18,6 +18,8 @@ import handleAxiosError from "@/utils/axiosError";
 import { useUserStore } from "@/stores/useUserStore";
 import { usePostStore } from "@/stores/usePostStore";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { Progress } from "../ui/progress";
+import { playSound } from "@/utils/playsound";
 
 interface CreatePostModalProps {
   post?: Post; // Si se pasa un post, estamos en modo edición
@@ -60,12 +62,13 @@ export function CreatePostModal({
     setShowPicker(false); // Ocultar el picker después de seleccionar un emoji
   };
 
+ 
   const handleClickOutside = (event: MouseEvent) => {
     if (
       emojiPickerRef.current &&
       !emojiPickerRef.current.contains(event.target as Node)
     ) {
-      setShowPicker(false); // Cierra el EmojiPicker si haces clic fuera de él
+      setShowPicker(false); 
     }
   };
 
@@ -117,6 +120,7 @@ export function CreatePostModal({
       });
 
       toast.success(response.data.message);
+      playSound('/notification3.mp3')
       fetchProfile(user?.username);
       if (post) {
         fetchPost(post.id)
@@ -225,6 +229,11 @@ export function CreatePostModal({
               </div>
             ) : post ? "Guardar cambios" : "Publicar"}
           </Button>
+          {loading && (
+            <Progress value={uploadProgress} />
+
+          )}
+
         </form>
       </DialogContent>
     </Dialog>

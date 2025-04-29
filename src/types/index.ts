@@ -16,6 +16,16 @@ export type Post = {
     file: string
     file_type: string
     user_id: User['id']
+    comments: Comment[]
+    commentsCount: number
+}
+export type Comment={
+    id: number
+    username:User['username']
+    user_id: User['id']
+    post_id: Post['id']
+    comment:string
+    created: Date
 }
 export type ErrorsUser = {
     email?: string;

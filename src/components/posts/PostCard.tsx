@@ -17,7 +17,7 @@ export default function PostCard({ post }: Props) {
         fetchPost(id);
         openModal();
     };
-  
+
     return (
         <Card className="w-full relative group overflow-hidden rounded-xl cursor-pointer" onClick={() => handleClick(post.id)}>
             <CardHeader>
@@ -37,7 +37,7 @@ export default function PostCard({ post }: Props) {
                                 </div>
                                 <div className="flex flex-col items-center hover:scale-110 transition-transform">
                                     <FaComment />
-                                    <span className="text-sm mt-1">0</span>
+                                    <span className="text-sm mt-1">{post.commentsCount}</span>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@ export default function PostCard({ post }: Props) {
                                 </div>
                                 <div className="flex flex-col items-center hover:scale-110 transition-transform">
                                     <FaComment />
-                                    <span className="text-sm mt-1">0</span>
+                                    <span className="text-sm mt-1">{post.commentsCount}</span>
                                 </div>
                             </div>
                         </div>

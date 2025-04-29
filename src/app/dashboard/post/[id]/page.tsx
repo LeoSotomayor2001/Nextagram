@@ -7,6 +7,7 @@ import ReactPlayer from "react-player";
 import Image from "next/image";
 import Spinner from "@/components/spinner/Spinner";
 import { ActionsButtons } from "@/components/posts/ActionsButtons";
+import PostComments from "@/components/posts/PostComments";
 
 
 export default function Page() {
@@ -91,37 +92,10 @@ export default function Page() {
 
 
       </div>
-
-      <div className="w-full lg:w-3/12 bg-gray-100 dark:bg-zinc-800 p-6 rounded-2xl shadow-md flex flex-col">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Comentarios</h2>
-
-        <div className="space-y-4 flex-1 overflow-y-auto">
-          <div className="border-b pb-2 border-gray-300 dark:border-gray-700">
-            <p className="text-gray-700 dark:text-gray-300">
-              <strong>Usuario 1:</strong> ¡Esto es increíble! Me encanta el contenido.
-            </p>
-          </div>
-          <div className="border-b pb-2 border-gray-300 dark:border-gray-700">
-            <p className="text-gray-700 dark:text-gray-300">
-              <strong>Usuario 2:</strong> Buen trabajo, sigue así.
-            </p>
-          </div>
-        </div>
-
-        {/* Formulario de comentarios */}
-        <form className="mt-6">
-          <textarea
-            placeholder="Escribe un comentario..."
-            className="w-full h-24 p-3 border border-gray-300 rounded-md resize-none dark:bg-zinc-700 dark:text-white dark:border-gray-600"
-          />
-          <button
-            type="submit"
-            className="mt-3 w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Comentar
-          </button>
-        </form>
-      </div>
+        {post?.comments && (
+          <PostComments styles= "w-full lg:w-3/12 bg-gray-100 dark:bg-gray-900 p-6 rounded-2xl shadow-md flex flex-col" comments={post?.comments}/>
+        )}
+  
     </div>
   );
 }

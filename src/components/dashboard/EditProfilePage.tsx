@@ -2,6 +2,7 @@
 
 import { updateUser } from "@/actions/user-actions";
 import { ErrorsUser, User } from "@/types";
+import { playSound } from "@/utils/playsound";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -40,6 +41,7 @@ export default function EditProfilePage() {
       if (message && updatedUser) {
         localStorage.setItem('user', JSON.stringify(updatedUser));
         toast.success(message)
+        playSound('/notification2.mp3')
         router.push(`/dashboard/profile/${updatedUser.username}`);
       }
     } catch (error) {

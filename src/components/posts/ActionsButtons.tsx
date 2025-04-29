@@ -58,7 +58,7 @@ export function ActionsButtons({ post }: { post: Post }) {
                     toast.error(error.response?.data.error || error.response?.data.message);
                 }
             }
-        }, 210); // 50ms es suficiente
+        }, 210); 
     };
     
 

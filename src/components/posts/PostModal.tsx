@@ -4,6 +4,7 @@ import Image from "next/image";
 import { usePostStore } from "@/stores/usePostStore";
 import Spinner from "../spinner/Spinner";
 import Link from "next/link";
+import PostComments from "./PostComments";
 
 export default function PostModal() {
     const { isOpen, post, closeModal, loading } = usePostStore();
@@ -16,12 +17,12 @@ export default function PostModal() {
                     <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                         {loading ? "Cargando..." : post?.title}
                     </DialogTitle>
-                        {!loading && (
-                            <Link href={`/dashboard/post/${post?.id}`} className="float-right"> 
-                                Ir a la publicación
-                            </Link>
+                    {!loading && (
+                        <Link href={`/dashboard/post/${post?.id}`} className="float-right">
+                            Ir a la publicación
+                        </Link>
 
-                        )}
+                    )}
                 </DialogHeader>
 
                 {/* Contenido multimedia */}
@@ -54,38 +55,12 @@ export default function PostModal() {
 
 
                 {/* Comentarios */}
-                {!loading && (
-                    <div className="max-h-[35vh] overflow-y-auto bg-gray-100 dark:bg-gray-900 px-6 py-5">
-                        <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Comentarios</h2>
-
-                        <div className="space-y-4">
-                            <div className="border-b border-gray-300 dark:border-gray-700 pb-2">
-                                <p className="text-gray-700 dark:text-gray-300">
-                                    <strong>Usuario 1:</strong> Esto es increíble. Me encanta el contenido.
-                                </p>
-                            </div>
-                            <div className="border-b border-gray-300 dark:border-gray-700 pb-2">
-                                <p className="text-gray-700 dark:text-gray-300">
-                                    <strong>Usuario 2:</strong> Muy buen trabajo. ¡Sigue así!
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Formulario */}
-                        <form className="mt-6">
-                            <textarea
-                                placeholder="Escribe un comentario..."
-                                className="w-full h-24 p-3 rounded-lg border border-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                            />
-                            <button
-                                type="submit"
-                                className="mt-3 w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
-                            >
-                                Comentar
-                            </button>
-                        </form>
-                    </div>
+                {!loading && post?.comments && (
+                    <PostComments comments={post.comments} />
                 )}
+
+
+
             </DialogContent>
         </Dialog>
     );
