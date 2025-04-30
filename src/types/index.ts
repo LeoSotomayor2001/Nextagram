@@ -1,3 +1,4 @@
+import { ReactNode } from "react"
 
 export type User = {
     id: number
@@ -22,10 +23,11 @@ export type Post = {
 export type Comment = {
     id: number
     username: User['username']
+    image: User['image']
     user_id: User['id']
     post_id: Post['id']
     comment: string
-    created: Date
+    created: ReactNode
 }
 export type ErrorsUser = {
     email?: string;
