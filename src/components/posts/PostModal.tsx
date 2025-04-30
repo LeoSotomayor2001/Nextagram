@@ -27,7 +27,7 @@ export default function PostModal() {
 
                 {/* Contenido multimedia */}
                 <div className="flex-1 bg-black flex items-center justify-center relative">
-                    {loading ? (
+                    {loading  || !post ? (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Spinner />
                         </div>
@@ -56,7 +56,7 @@ export default function PostModal() {
 
                 {/* Comentarios */}
                 {!loading && post?.comments && (
-                    <PostComments comments={post.comments} />
+                    <PostComments comments={post.comments} postId={post.id} />
                 )}
 
 

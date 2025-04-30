@@ -93,7 +93,7 @@ export default function Page() {
 
       </div>
         {post?.comments && (
-          <PostComments styles= "w-full lg:w-3/12 bg-gray-100 dark:bg-gray-900 p-6 rounded-2xl shadow-md flex flex-col" comments={post?.comments}/>
+          <PostComments styles= "w-full lg:w-3/12 bg-gray-100 dark:bg-gray-900 p-6 rounded-2xl shadow-md flex flex-col" comments={post?.comments} postId={post.id}/>
         )}
   
     </div>

@@ -20,6 +20,9 @@ const handleAxiosError = <T extends Record<string, string[]>>(
       setErrors(responseErrors as T);
       setTimeout(() => setErrors({} as T), 3000);
     }
+    if (error.status === 500) {
+      toast.error('Oops Ha ocurrido algo en el servidor. Intentelo de nuevo mas tarde')
+    }
   } else {
     toast.error("Ocurrió un error inesperado.");
   }

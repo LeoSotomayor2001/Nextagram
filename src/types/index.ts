@@ -19,12 +19,12 @@ export type Post = {
     comments: Comment[]
     commentsCount: number
 }
-export type Comment={
+export type Comment = {
     id: number
-    username:User['username']
+    username: User['username']
     user_id: User['id']
     post_id: Post['id']
-    comment:string
+    comment: string
     created: Date
 }
 export type ErrorsUser = {
@@ -43,5 +43,11 @@ export type ErrorsPost = {
     file?: string[];
     file_type?: string[];
     general?: string[];
-  };
-  
+};
+
+export type ErrorsComment={
+    comment?:string[]
+    user_id?: string[]
+    post_id?: string[];
+    general?: string[];
+}

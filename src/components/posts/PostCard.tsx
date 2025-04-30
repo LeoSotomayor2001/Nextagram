@@ -19,7 +19,10 @@ export default function PostCard({ post }: Props) {
     };
 
     return (
-        <Card className="w-full relative group overflow-hidden rounded-xl cursor-pointer" onClick={() => handleClick(post.id)}>
+        <Card
+            className="w-full relative group overflow-hidden rounded-xl cursor-pointer animate-fadeIn"
+            onClick={() => handleClick(post.id)}
+        >
             <CardHeader>
                 <CardTitle className="text-2xl">{post.title}</CardTitle>
                 <CardDescription className="text-xl">{post.description}</CardDescription>
