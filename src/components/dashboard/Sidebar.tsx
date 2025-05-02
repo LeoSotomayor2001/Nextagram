@@ -3,7 +3,7 @@ import { roboto } from "@/fonts";
 import { ThemeToggle } from "../ThemeToggle";
 import Link from "next/link";
 import { IoHome } from "react-icons/io5";
-import { FaRegPlusSquare, FaSearch } from "react-icons/fa";
+import { FaRegPlusSquare } from "react-icons/fa";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { FaRegHeart } from "react-icons/fa6";
 
@@ -14,19 +14,22 @@ import { CreatePostModal } from "../posts/CreatePostModal";
 import { useUserStore } from "@/stores/useUserStore";
 import { useEffect, useState } from "react";
 import PostModal from "../posts/PostModal";
+import SearchDrawer from "./SearchDrawer";
+
 
 export default function Sidebar() {
     const userData = JSON.parse(localStorage.getItem('user')!);
     const username = userData.username
     const { user, fetchProfile } = useUserStore();
     const sameUser = userData.id === user?.id;
+
     // Estado para manejar apertura del modal de creación
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
     useEffect(() => {
         fetchProfile(username);
     }, [username, fetchProfile]);
     return (
-        <aside className="md:w-64 md:border-gray-200 border-r w-full">
+        <aside className="md:w-72 md:border-gray-200 border-r w-full">
             <header className="flex justify-between items-center p-4">
                 <Link href={"/dashboard"} className={`${roboto.className} text-2xl md:text-3xl mb-4 font-bold text-gray-900 dark:text-white`}>
                     Nextagram
@@ -44,14 +47,8 @@ export default function Sidebar() {
                             Inicio
                         </Link>
                     </li>
-                    <li>
-                        <Link
-                            href="/dashboard/search"
-                            className="flex items-center gap-2 w-full p-3 text-gray-600 dark:text-gray-400 text-base md:text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-sky-500 dark:hover:text-sky-500 rounded-md transition-colors"
-                        >
-                            <FaSearch className="size-6" />
-                            Busqueda
-                        </Link>
+                    <li >
+                        <SearchDrawer/>
                     </li>
 
                     <li>
@@ -79,7 +76,7 @@ export default function Sidebar() {
                             onClick={() => setIsCreatePostOpen(true)}
                         >
                             <FaRegPlusSquare className="size-6" />
-                            Crear 
+                            Crear
                         </button>
                         {/* Modal de creación */}
                         <CreatePostModal
@@ -103,7 +100,7 @@ export default function Sidebar() {
 
                 </ul>
             </nav>
-            <PostModal /> 
+            <PostModal />
         </aside>
     )
 }

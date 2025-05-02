@@ -76,14 +76,14 @@ export default function PostComments({
             </h2>
 
 
-            <div className="max-h-[800px] overflow-y-auto px-4 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md">
+            <div className="max-h-[800px] overflow-y-auto bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md">
                 <ul className="space-y-4" role="list">
                     {comments.map((comment) => (
                         <section key={comment.id}>
                             <header>
                                 <Link
                                     href={`/dashboard/profile/${comment.username}`}
-                                    className="mb-2 flex gap-2 items-center"
+                                    className="mb-2 flex gap-2 items-center p-1"
                                 >
                                     <UserPortrait styles="w-6 h-6 md:w-8 md:h-8 rounded-full shadow-lg" image={comment.image} />
                                     <p className="text-sm font-semibold text-gray-800 dark:text-white">{comment.username}</p>
