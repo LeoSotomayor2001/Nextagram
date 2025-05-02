@@ -11,6 +11,7 @@ import UserPortrait from './UserProtrait'
 import PostCard from '../posts/PostCard'
 import LogoutButton from './LogoutButton'
 import { useUserStore } from '@/stores/useUserStore'
+import { toast } from 'react-toastify'
 
 export default function Profile() {
     const params = useParams<{ username: string }>()
@@ -62,17 +63,18 @@ export default function Profile() {
                         <h2 className="text-2xl text-black dark:text-white">
                             {user.name + ' ' + user.lastname} (@{user.username})
                         </h2>
-
-                        <div className="flex flex-col sm:flex-row gap-3">
-                            <Link href={`/dashboard/profile/edit`}>
-                                <Button variant="outline" size="lg" className="cursor-pointer w-full sm:w-auto">
-                                    Editar perfil
+                        {user.isMe && (
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <Link href={`/dashboard/profile/edit`}>
+                                    <Button variant="outline" size="lg" className="cursor-pointer w-full sm:w-auto">
+                                        Editar perfil
+                                    </Button>
+                                </Link>
+                                <Button variant="outline" size="lg" className="cursor-pointer w-full sm:w-auto" onClick={() => toast.info('seccion en construccion')}>
+                                    Ver archivo
                                 </Button>
-                            </Link>
-                            <Button variant="outline" size="lg" className="cursor-pointer w-full sm:w-auto">
-                                Ver archivo
-                            </Button>
-                        </div>
+                            </div>
+                        )}
                     </div>
 
                     <section className="mt-4">

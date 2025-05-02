@@ -218,7 +218,7 @@ export function CreatePostModal({
             />
 
           ) :
-            <p className="text-center text-gray-300">En edición no puedes cambiar el archivo</p>
+            <p className="text-center text-gray-400">En edición no puedes cambiar el archivo</p>
           }
 
 

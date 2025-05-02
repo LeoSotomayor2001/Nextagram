@@ -67,7 +67,7 @@ export default function SearchDrawer() {
                     Buscar
                 </button>
 
-                <section>
+                <section >
                     {users && users.length > 0 ? (
                         <ul className="mt-4 space-y-2">
                             {users.map((user) => (

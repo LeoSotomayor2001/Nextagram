@@ -8,6 +8,7 @@ export type User = {
     image: string
     lastname: string
     postCount: number
+    isMe?: boolean
 
 }
 export type Post = {

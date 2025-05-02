@@ -2,6 +2,7 @@ import { create } from "zustand";
 import axiosInstance from "@/utils/axiosInstance";
 import { Post, User } from "@/types";
 import axios from "axios";
+import { isCurrentUser } from "@/utils/utils";
 
 interface UserState {
   user: User;
@@ -12,18 +13,18 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>((set) => ({
-    user: {} as User, 
-    posts: [],
-    loading: false,
-    error: null,
+  user: {} as User,
+  posts: [],
+  loading: false,
+  error: null,
 
   fetchProfile: async (username) => {
-     set({
-    loading: true,
-    user: {} as User, // Limpia los datos del usuario previo
-    posts: [],  // Limpia los posts previos
-    error: null,
-  });
+    set({
+      loading: true,
+      user: {} as User, // Limpia los datos del usuario previo
+      posts: [],  // Limpia los posts previos
+      error: null,
+    });
     try {
       const token = localStorage.getItem("token");
 
@@ -33,8 +34,13 @@ export const useUserStore = create<UserState>((set) => ({
         },
       });
 
+      const userWithIsMe = {
+        ...response.data,
+        isMe: isCurrentUser(response.data),
+      };
+
       set({
-        user: response.data,
+        user: userWithIsMe,
         posts: response.data.posts,
         error: null,
       });
