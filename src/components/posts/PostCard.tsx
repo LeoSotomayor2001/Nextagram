@@ -13,8 +13,8 @@ type Props = {
 export default function PostCard({ post }: Props) {
     const { openModal, fetchPost } = usePostStore();
 
-    const handleClick = (id: number) => {
-        fetchPost(id);
+    const handleClick = async(id: number) => {
+        await fetchPost(id);
         openModal();
     };
 
@@ -25,7 +25,7 @@ export default function PostCard({ post }: Props) {
         >
             <CardHeader>
                 <CardTitle className="text-2xl">{post.title}</CardTitle>
-                <CardDescription className="text-xl">{post.description}</CardDescription>
+                <CardDescription className="text-xl text-gray-600 dark:text-gray-400 line-clamp-1">{post.description}</CardDescription>
             </CardHeader>
 
             <CardContent className="px-2 pb-1 relative">
@@ -49,6 +49,7 @@ export default function PostCard({ post }: Props) {
                             alt={post.description || post.title}
                             fill
                             priority
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 700px"
                             className="rounded-lg"
                         />
                     </div>

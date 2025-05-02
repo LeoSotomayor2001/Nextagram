@@ -11,7 +11,6 @@ import UserPortrait from './UserProtrait'
 import PostCard from '../posts/PostCard'
 import LogoutButton from './LogoutButton'
 import { useUserStore } from '@/stores/useUserStore'
-import PostModal from '../posts/PostModal'
 
 export default function Profile() {
     const params = useParams<{ username: string }>()
@@ -100,7 +99,7 @@ export default function Profile() {
 
             </section>
 
-            <PostModal /> 
+            
         </div>
     )
 }

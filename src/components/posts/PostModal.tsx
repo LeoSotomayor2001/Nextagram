@@ -5,6 +5,8 @@ import { usePostStore } from "@/stores/usePostStore";
 import Spinner from "../spinner/Spinner";
 import Link from "next/link";
 import PostComments from "./PostComments";
+import { FiExternalLink } from "react-icons/fi";
+
 
 export default function PostModal() {
     const { isOpen, post, closeModal, loading } = usePostStore();
@@ -12,22 +14,32 @@ export default function PostModal() {
     return (
         <Dialog open={isOpen} onOpenChange={closeModal}>
             <DialogContent className="w-full max-w-4xl h-[90vh] flex flex-col p-0 rounded-2xl overflow-hidden shadow-2xl">
-                {/* Header */}
                 <DialogHeader className="px-6 pt-6 pb-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
                     <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                         {loading ? "Cargando..." : post?.title}
                     </DialogTitle>
+                    <div className="mt-2 max-h-[100px] overflow-y-auto">
+                        <p className="text-gray-600 dark:text-gray-400 break-words">
+                            {post?.description}
+                        </p>
+                    </div>
                     {!loading && (
-                        <Link href={`/dashboard/post/${post?.id}`} className="float-right">
-                            Ir a la publicación
-                        </Link>
+                        <div className="flex justify-end">
+                            <Link
+                                href={`/dashboard/post/${post?.id}`}
+                                onClick={closeModal}
+                                className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                            >
+                                Ir a la publicación
+                                <FiExternalLink className="h-3 w-3" />
+                            </Link>
+                        </div>
 
                     )}
                 </DialogHeader>
 
-                {/* Contenido multimedia */}
                 <div className="flex-1 bg-black flex items-center justify-center relative">
-                    {loading  || !post ? (
+                    {loading || !post ? (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Spinner />
                         </div>
@@ -35,7 +47,7 @@ export default function PostModal() {
                         <Image
                             src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${post.file}`}
                             alt={post.title}
-                            fill // Esto hace que la imagen ocupe todo el div (Next.js Image prop)
+                            fill
                             className="rounded-none"
                         />
                     ) : post?.file_type.startsWith("video") ? (
@@ -53,14 +65,9 @@ export default function PostModal() {
                     )}
                 </div>
 
-
-                {/* Comentarios */}
                 {!loading && post?.comments && (
                     <PostComments comments={post.comments} postId={post.id} />
                 )}
-
-
-
             </DialogContent>
         </Dialog>
     );

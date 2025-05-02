@@ -20,7 +20,6 @@ export default function LogoutButton() {
             router.push('/auth/login')
         }
         catch(error:unknown){
-            console.log(error)
             if (axios.isAxiosError(error)) {
                 toast.error(error.response?.data.error || 'Error al cerrar sesión')
                 if(error.response?.data.error==='Sesión expirada'){

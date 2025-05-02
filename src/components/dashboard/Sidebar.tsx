@@ -13,6 +13,7 @@ import LogoutButton from "./LogoutButton";
 import { CreatePostModal } from "../posts/CreatePostModal";
 import { useUserStore } from "@/stores/useUserStore";
 import { useEffect, useState } from "react";
+import PostModal from "../posts/PostModal";
 
 export default function Sidebar() {
     const userData = JSON.parse(localStorage.getItem('user')!);
@@ -102,6 +103,7 @@ export default function Sidebar() {
 
                 </ul>
             </nav>
+            <PostModal /> 
         </aside>
     )
 }

@@ -22,7 +22,7 @@ export default function Page() {
     }
   }, [id, fetchPost]);
 
-  if (loading) {
+  if (loading || !post) {
     return (
       <div className="flex justify-center items-center h-screen bg-white dark:bg-black">
         <Spinner />
@@ -41,7 +41,7 @@ export default function Page() {
   return (
     <div className="flex flex-col lg:flex-row w-full h-screen p-4 gap-6 bg-white dark:bg-black">
 
-      <div className="w-full lg:w-9/12 bg-gray-100 dark:bg-zinc-900 rounded-2xl shadow-lg overflow-hidden flex flex-col">
+      <div className="w-full lg:w-8/12 bg-gray-100  dark:bg-zinc-900 rounded-2xl shadow-lg overflow-hidden flex flex-col">
 
         <div className="p-6 border-b border-gray-300 dark:border-gray-700">
 
@@ -55,26 +55,27 @@ export default function Page() {
               </div>
             )}
           </div>
-          {post?.description && (
-            <p className="mt-2 text-gray-600 dark:text-gray-400">{post.description}</p>
-          )}
+          <div className="mt-2 max-h-[100px] overflow-y-auto">
+            <p className="text-gray-600 dark:text-gray-400 break-words">
+              {post?.description}
+            </p>
+          </div>
         </div>
 
+        <div className="flex-1 flex items-center justify-center min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[80vh]">
 
-
-
-        <div className="flex-1 flex items-center justify-center ">
           {post?.file_type.startsWith("image") ? (
-            <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[80vh]">
-              <Image
-                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${post.file}`}
-                alt={post.title || "Post image"}
-                fill
-                priority
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 700px"
-                className="rounded-lg"
-              />
-            </div>
+            <div className="relative w-full min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[80vh] flex items-center justify-center">
+
+            <Image
+              src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${post.file}`}
+              alt={post.title || "Post image"}
+              fill
+              priority
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 700px"
+              className="rounded-lg"
+            />
+          </div>
           ) : post?.file_type.startsWith("video") ? (
             <div className="w-full h-full">
               <ReactPlayer
@@ -92,10 +93,10 @@ export default function Page() {
 
 
       </div>
-        {post?.comments && (
-          <PostComments styles= "w-full lg:w-3/12 bg-gray-100 dark:bg-gray-900 p-6 rounded-2xl shadow-md flex flex-col" comments={post?.comments} postId={post.id}/>
-        )}
-  
+      {post?.comments && (
+        <PostComments styles="w-full lg:w-4/12 bg-gray-100 dark:bg-gray-900 p-6 rounded-2xl shadow-md flex flex-col" comments={post?.comments} postId={post.id} />
+      )}
+
     </div>
   );
 }

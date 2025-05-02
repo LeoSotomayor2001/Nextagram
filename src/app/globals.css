@@ -19,6 +19,13 @@
     }
   }
 }
+.swal2-actions {
+  z-index: 1500 !important;
+  
+}
+#radix-«ro»{
+  z-index: 100;
+}
 
 :root {
 
