@@ -22,6 +22,8 @@ export type Post = {
     commentsCount: number
     reactions?: { [key: string]: number }; // Reactions count for each type
     reactionsCount: number
+    userHasReacted: boolean; // Indicates if the user has reacted to the post
+    userReactionType:string | null; // Indicates the type of reaction the user has given (if any)
 }
 
 export type Comment = {

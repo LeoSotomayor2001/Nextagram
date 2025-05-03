@@ -9,6 +9,7 @@ import Spinner from "@/components/spinner/Spinner";
 import { ActionsButtons } from "@/components/posts/ActionsButtons";
 import PostComments from "@/components/posts/PostComments";
 import LikeButton from "@/components/posts/LikeButton";
+import { isCurrentUser } from "@/utils/utils";
 
 
 export default function Page() {
@@ -20,8 +21,11 @@ export default function Page() {
   useEffect(() => {
     if (id) {
       fetchPost(+id);
+      if(post?.title) {
+        document.title = `${post?.title}`;
+      }
     }
-  }, [id, fetchPost]);
+  }, [id, fetchPost, post?.title]);
 
   if (loading || !post) {
     return (
@@ -50,7 +54,7 @@ export default function Page() {
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white text-center flex-1">
               {post?.title}
             </h1>
-            {post && post.user_id === JSON.parse(localStorage.getItem("user")!).id && (
+            {post && isCurrentUser(post.user_id) && (
               <div className="ml-auto">
                 <ActionsButtons post={post} />
               </div>

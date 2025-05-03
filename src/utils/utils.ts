@@ -1,6 +1,6 @@
-import { User } from "@/types";
 
-export const isCurrentUser = (user: User): boolean => {
+
+export const isCurrentUser = (id:number): boolean => {
     const currentUserId = JSON.parse(localStorage.getItem("user")!).id;
-    return currentUserId ? parseInt(currentUserId, 10) === user.id : false;
+    return currentUserId ? parseInt(currentUserId, 10) === id : false;
 };

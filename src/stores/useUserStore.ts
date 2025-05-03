@@ -36,7 +36,7 @@ export const useUserStore = create<UserState>((set) => ({
 
       const userWithIsMe = {
         ...response.data,
-        isMe: isCurrentUser(response.data),
+        isMe: isCurrentUser(response.data.id),
       };
 
       set({

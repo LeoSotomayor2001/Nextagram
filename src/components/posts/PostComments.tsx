@@ -8,6 +8,7 @@ import handleAxiosError from '@/utils/axiosError'
 import ActionsCommentsButtons from './ActionsCommentsButtons'
 import UserPortrait from '../dashboard/UserProtrait'
 import Link from 'next/link'
+import { isCurrentUser } from '@/utils/utils'
 
 type PostCommentsProps = {
     styles?: string
@@ -92,7 +93,7 @@ export default function PostComments({
                             </header>
                             <li className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800 shadow-sm">
                                 <p className="text-gray-700 dark:text-gray-300 break-words">{comment.comment}</p>
-                                {comment.user_id === JSON.parse(localStorage.getItem("user")!).id && (
+                                {isCurrentUser(comment.user_id) && (
                                     <footer>
                                         <ActionsCommentsButtons comment={comment} setEditingComment={setEditingComment} />
                                     </footer>
