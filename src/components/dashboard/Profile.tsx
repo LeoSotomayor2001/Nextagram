@@ -12,17 +12,19 @@ import PostCard from '../posts/PostCard'
 import LogoutButton from './LogoutButton'
 import { useUserStore } from '@/stores/useUserStore'
 import { toast } from 'react-toastify'
+import axiosInstance from '@/utils/axiosInstance'
 
 export default function Profile() {
     const params = useParams<{ username: string }>()
     const username = params.username
-    const { user, posts, loading, error, fetchProfile } = useUserStore();
+    const { user, posts, loading, error, fetchProfile,isFollowing } = useUserStore();
     const router = useRouter()
     useEffect(() => {
-        fetchProfile(username); 
+        fetchProfile(username);
     }, [username, fetchProfile]);
+    
 
-    if (loading ) {
+    if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
                 <Spinner />
@@ -52,9 +54,50 @@ export default function Profile() {
         )
     }
 
+    const handleFollow = async () => {
+        if (user.isMe) {
+            toast.info('No puedes seguirte a ti mismo');
+            return;
+        }
+    
+        const token = localStorage.getItem('token');
+        try {
+            const response = await axiosInstance.post(`${user.username}/follow`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            toast.success(response.data.message);
+            fetchProfile(username); // Actualiza el perfil después de seguir
+        } catch (error) {
+            console.error(`Error al ${user.isFollowing ? 'dejar de seguir' : 'seguir'} al usuario:`, error);
+            toast.error(`Error al ${user.isFollowing ? 'dejar de seguir' : 'seguir'} al usuario`);
+        }
+    };
+
+    const handleDeleteFollow = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await axiosInstance.delete(`${user.username}/follow`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+    
+            toast.success(response.data.message);
+            fetchProfile(username); 
+        } catch (error) {
+            console.error('Error al dejar de seguir al usuario:', error);
+            toast.error('Error al dejar de seguir al usuario');
+        }
+    };
+    
+    
+
     return (
         <div className="my-5">
-    
+
             <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 p-4">
                 <UserPortrait image={user.image} />
 
@@ -63,7 +106,7 @@ export default function Profile() {
                         <h2 className="text-2xl text-black dark:text-white">
                             {user.name + ' ' + user.lastname} (@{user.username})
                         </h2>
-                        {user.isMe && (
+                        {user.isMe ? (
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <Link href={`/dashboard/profile/edit`}>
                                     <Button variant="outline" size="lg" className="cursor-pointer w-full sm:w-auto">
@@ -74,14 +117,22 @@ export default function Profile() {
                                     Ver archivo
                                 </Button>
                             </div>
+                        ) : (
+                            <button
+                                className={`cursor-pointer w-full sm:w-auto px-4 py-2 rounded-lg ${isFollowing ? 'bg-red-500' : 'bg-sky-600'} text-white`}
+                                onClick={isFollowing ? handleDeleteFollow : handleFollow}
+                            >
+                                {isFollowing ? "Dejar de seguir" : "Seguir"}
+                            </button>
+
                         )}
                     </div>
 
                     <section className="mt-4">
                         <ul className="flex flex-wrap gap-4 justify-center md:justify-start text-gray-700 dark:text-gray-300">
                             <li>Publicaciones ({user.postCount})</li>
-                            <li>Seguidores</li>
-                            <li>Seguidos</li>
+                            <li>Seguidores ({user.followersCount})</li>
+                            <li>Seguidos ({user.followingCount}) </li>
                         </ul>
                     </section>
                 </div>
@@ -101,7 +152,7 @@ export default function Profile() {
 
             </section>
 
-            
+
         </div>
     )
 }

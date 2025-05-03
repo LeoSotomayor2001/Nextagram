@@ -119,7 +119,7 @@ export default function LikeButton({ post }: { post: Post }) {
 
       {/* Picker de reacciones */}
       {showPicker && (
-        <div className="absolute bottom-full mb-2 bg-white dark:bg-gray-900 p-2 rounded-lg shadow-md flex gap-2">
+        <div className="absolute bottom-full mb-2 bg-white dark:bg-gray-900 p-1 rounded-lg shadow-md flex gap-2">
           {reactions.map(reaction => (
             <button
               key={reaction.id}

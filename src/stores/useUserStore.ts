@@ -7,16 +7,21 @@ import { isCurrentUser } from "@/utils/utils";
 interface UserState {
   user: User;
   posts: Post[];
+  dashboardPosts: Post[];
   loading: boolean;
   error: string | null;
   fetchProfile: (username: string) => Promise<void>;
+  fetchPosts: () => Promise<void>;
+  isFollowing: boolean;
 }
 
 export const useUserStore = create<UserState>((set) => ({
   user: {} as User,
   posts: [],
   loading: false,
+  dashboardPosts: [],
   error: null,
+  isFollowing: false,
 
   fetchProfile: async (username) => {
     set({
@@ -24,6 +29,8 @@ export const useUserStore = create<UserState>((set) => ({
       user: {} as User, // Limpia los datos del usuario previo
       posts: [],  // Limpia los posts previos
       error: null,
+      isFollowing: false,
+
     });
     try {
       const token = localStorage.getItem("token");
@@ -43,8 +50,10 @@ export const useUserStore = create<UserState>((set) => ({
         user: userWithIsMe,
         posts: response.data.posts,
         error: null,
+        isFollowing: userWithIsMe.isFollowing || false, // Establece el estado de seguimiento
       });
     } catch (err: unknown) {
+
       if (axios.isAxiosError(err)) {
         set({ error: err.response?.data?.error || "Error al cargar el perfil" });
       }
@@ -52,4 +61,32 @@ export const useUserStore = create<UserState>((set) => ({
       set({ loading: false });
     }
   },
+  fetchPosts:async()=>{
+    set({
+      loading: true,
+      posts: [], 
+      error: null,
+    });
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axiosInstance.get(`/posts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      set({
+        dashboardPosts: response.data.posts,
+        error: null,
+      });
+
+    }
+    catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        set({ error: err.response?.data?.error || "Error al cargar los posts" });
+      }
+    } finally {
+      set({ loading: false });
+    }
+  }
 }));

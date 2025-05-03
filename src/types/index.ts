@@ -8,7 +8,10 @@ export type User = {
     image: string
     lastname: string
     postCount: number
+    followersCount: number
+    followingCount: number
     isMe?: boolean
+    isFollowing?: boolean
 
 }
 export type Post = {
@@ -18,12 +21,15 @@ export type Post = {
     file: string
     file_type: string
     user_id: User['id']
+    userImage:User['image']
+    username:User['username']
+    created:ReactNode
     comments: Comment[]
     commentsCount: number
-    reactions?: { [key: string]: number }; // Reactions count for each type
+    reactions?: { [key: string]: number };
     reactionsCount: number
-    userHasReacted: boolean; // Indicates if the user has reacted to the post
-    userReactionType:string | null; // Indicates the type of reaction the user has given (if any)
+    userHasReacted: boolean; 
+    userReactionType:string | null; 
 }
 
 export type Comment = {

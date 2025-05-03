@@ -14,7 +14,7 @@ export default function PostModal() {
 
     return (
         <Dialog open={isOpen} onOpenChange={closeModal}>
-            <DialogContent className="w-full max-w-4xl h-[90vh] flex flex-col p-0 rounded-2xl overflow-hidden shadow-2xl">
+            <DialogContent className="w-full max-w-4xl h-[95vh] flex flex-col p-0 rounded-2xl overflow-hidden shadow-2xl">
                 <DialogHeader className="px-6 pt-6 pb-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
                     <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                         {loading ? "Cargando..." : post?.title}
@@ -39,7 +39,7 @@ export default function PostModal() {
                     )}
                 </DialogHeader>
 
-                <div className="flex-1 bg-black flex items-center justify-center relative">
+                <div className="w-full h-[90vh] bg-black flex items-center justify-center relative">
                     {loading || !post ? (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Spinner />
@@ -49,7 +49,6 @@ export default function PostModal() {
                             src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${post.file}`}
                             alt={post.title}
                             fill
-                            className="rounded-none"
                         />
                     ) : post?.file_type.startsWith("video") ? (
                         <div className="w-full h-full flex items-center justify-center">
