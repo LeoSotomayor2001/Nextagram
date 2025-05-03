@@ -6,6 +6,7 @@ import Spinner from "../spinner/Spinner";
 import Link from "next/link";
 import PostComments from "./PostComments";
 import { FiExternalLink } from "react-icons/fi";
+import LikeButton from "./LikeButton";
 
 
 export default function PostModal() {
@@ -64,7 +65,10 @@ export default function PostModal() {
                         <p className="text-sm text-white">Tipo de archivo no soportado.</p>
                     )}
                 </div>
+                {post && (
 
+                    <LikeButton post={post} />
+                )}
                 {!loading && post?.comments && (
                     <PostComments comments={post.comments} postId={post.id} />
                 )}

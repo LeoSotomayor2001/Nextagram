@@ -20,7 +20,10 @@ export type Post = {
     user_id: User['id']
     comments: Comment[]
     commentsCount: number
+    reactions?: { [key: string]: number }; // Reactions count for each type
+    reactionsCount: number
 }
+
 export type Comment = {
     id: number
     username: User['username']

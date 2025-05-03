@@ -36,7 +36,7 @@ export default function PostCard({ post }: Props) {
                             <div className="flex gap-10 text-white text-2xl items-center">
                                 <div className="flex flex-col items-center hover:scale-110 transition-transform">
                                     <FaHeart />
-                                    <span className="text-sm mt-1">0</span>
+                                    <span className="text-sm mt-1">{post.reactionsCount}</span>
                                 </div>
                                 <div className="flex flex-col items-center hover:scale-110 transition-transform">
                                     <FaComment />
@@ -60,7 +60,7 @@ export default function PostCard({ post }: Props) {
                             <div className="flex gap-10 text-white text-2xl items-center">
                                 <div className="flex flex-col items-center hover:scale-110 transition-transform">
                                     <FaHeart />
-                                    <span className="text-sm mt-1">0</span>
+                                    <span className="text-sm mt-1">{post.reactionsCount}</span>
                                 </div>
                                 <div className="flex flex-col items-center hover:scale-110 transition-transform">
                                     <FaComment />

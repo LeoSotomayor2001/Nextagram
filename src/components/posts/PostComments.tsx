@@ -83,7 +83,7 @@ export default function PostComments({
                             <header>
                                 <Link
                                     href={`/dashboard/profile/${comment.username}`}
-                                    className="mb-2 flex gap-2 items-center p-1"
+                                    className="mb-2 flex gap-2 items-center p-1 "
                                 >
                                     <UserPortrait styles="w-6 h-6 md:w-8 md:h-8 rounded-full shadow-lg" image={comment.image} />
                                     <p className="text-sm font-semibold text-gray-800 dark:text-white">{comment.username}</p>
@@ -91,7 +91,7 @@ export default function PostComments({
                                 </Link>
                             </header>
                             <li className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800 shadow-sm">
-                                <p className="text-gray-700 dark:text-gray-300">{comment.comment}</p>
+                                <p className="text-gray-700 dark:text-gray-300 break-words">{comment.comment}</p>
                                 {comment.user_id === JSON.parse(localStorage.getItem("user")!).id && (
                                     <footer>
                                         <ActionsCommentsButtons comment={comment} setEditingComment={setEditingComment} />
@@ -102,8 +102,6 @@ export default function PostComments({
                     ))}
                 </ul>
             </div>
-
-
 
             <form className="mt-6" aria-label="Añadir comentario" onSubmit={handleSubmit}>
                 <textarea

@@ -8,6 +8,7 @@ import Image from "next/image";
 import Spinner from "@/components/spinner/Spinner";
 import { ActionsButtons } from "@/components/posts/ActionsButtons";
 import PostComments from "@/components/posts/PostComments";
+import LikeButton from "@/components/posts/LikeButton";
 
 
 export default function Page() {
@@ -92,6 +93,7 @@ export default function Page() {
         </div>
 
 
+          <LikeButton post={post} />
       </div>
       {post?.comments && (
         <PostComments styles="w-full lg:w-4/12 bg-gray-100 dark:bg-gray-900 p-6 rounded-2xl shadow-md flex flex-col" comments={post?.comments} postId={post.id} />
