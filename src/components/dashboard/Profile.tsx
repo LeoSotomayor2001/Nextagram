@@ -12,18 +12,16 @@ import PostCard from '../posts/PostCard'
 import LogoutButton from './LogoutButton'
 import { useUserStore } from '@/stores/useUserStore'
 import { toast } from 'react-toastify'
-import axiosInstance from '@/utils/axiosInstance'
-
+import FollowButton from './FollowButton'
 export default function Profile() {
     const params = useParams<{ username: string }>()
     const username = params.username
-    const { user, posts, loading, error, fetchProfile,isFollowing } = useUserStore();
+    const { user, posts, loading, error, fetchProfile } = useUserStore();
     const router = useRouter()
     useEffect(() => {
         fetchProfile(username);
     }, [username, fetchProfile]);
     
-
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
@@ -54,44 +52,7 @@ export default function Profile() {
         )
     }
 
-    const handleFollow = async () => {
-        if (user.isMe) {
-            toast.info('No puedes seguirte a ti mismo');
-            return;
-        }
     
-        const token = localStorage.getItem('token');
-        try {
-            const response = await axiosInstance.post(`${user.username}/follow`, {}, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-    
-            toast.success(response.data.message);
-            fetchProfile(username); // Actualiza el perfil después de seguir
-        } catch (error) {
-            console.error(`Error al ${user.isFollowing ? 'dejar de seguir' : 'seguir'} al usuario:`, error);
-            toast.error(`Error al ${user.isFollowing ? 'dejar de seguir' : 'seguir'} al usuario`);
-        }
-    };
-
-    const handleDeleteFollow = async () => {
-        const token = localStorage.getItem('token');
-        try {
-            const response = await axiosInstance.delete(`${user.username}/follow`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-    
-            toast.success(response.data.message);
-            fetchProfile(username); 
-        } catch (error) {
-            console.error('Error al dejar de seguir al usuario:', error);
-            toast.error('Error al dejar de seguir al usuario');
-        }
-    };
     
     
 
@@ -118,12 +79,7 @@ export default function Profile() {
                                 </Button>
                             </div>
                         ) : (
-                            <button
-                                className={`cursor-pointer w-full sm:w-auto px-4 py-2 rounded-lg ${isFollowing ? 'bg-red-500' : 'bg-sky-600'} text-white`}
-                                onClick={isFollowing ? handleDeleteFollow : handleFollow}
-                            >
-                                {isFollowing ? "Dejar de seguir" : "Seguir"}
-                            </button>
+                            <FollowButton user={user} inProfile={true}/>
 
                         )}
                     </div>

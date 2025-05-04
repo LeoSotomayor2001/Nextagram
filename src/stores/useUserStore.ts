@@ -10,8 +10,10 @@ interface UserState {
   dashboardPosts: Post[];
   loading: boolean;
   error: string | null;
+  suggesteds: User[]
   fetchProfile: (username: string) => Promise<void>;
   fetchPosts: () => Promise<void>;
+  fetchSuggesteds: () => Promise<void>;
   isFollowing: boolean;
 }
 
@@ -22,6 +24,7 @@ export const useUserStore = create<UserState>((set) => ({
   dashboardPosts: [],
   error: null,
   isFollowing: false,
+  suggesteds: [],
 
   fetchProfile: async (username) => {
     set({
@@ -61,10 +64,10 @@ export const useUserStore = create<UserState>((set) => ({
       set({ loading: false });
     }
   },
-  fetchPosts:async()=>{
+  fetchPosts: async () => {
     set({
       loading: true,
-      posts: [], 
+      posts: [],
       error: null,
     });
     try {
@@ -84,6 +87,27 @@ export const useUserStore = create<UserState>((set) => ({
     catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         set({ error: err.response?.data?.error || "Error al cargar los posts" });
+      }
+    } finally {
+      set({ loading: false });
+    }
+  },
+  fetchSuggesteds: async () => {
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.get(`/followers/suggested`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      set({
+        suggesteds: response.data.suggestedUsers
+      })
+    }
+    catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        set({ error: err.response?.data?.error || "Error al cargar los sugeridos" });
       }
     } finally {
       set({ loading: false });
