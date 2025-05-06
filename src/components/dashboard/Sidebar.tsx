@@ -5,29 +5,23 @@ import Link from "next/link";
 import { IoHome } from "react-icons/io5";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { LuMessageCircleMore } from "react-icons/lu";
-import { FaRegHeart } from "react-icons/fa6";
 
 import UserPortrait from "./UserProtrait";
 
 import LogoutButton from "./LogoutButton";
 import { CreatePostModal } from "../posts/CreatePostModal";
-import { useUserStore } from "@/stores/useUserStore";
-import { useEffect, useState } from "react";
+
+import {  useState } from "react";
 import PostModal from "../posts/PostModal";
 import SearchDrawer from "./SearchDrawer";
+import NotificationDrawer from "./NotificationDrawer";
 
 
 export default function Sidebar() {
     const userData = JSON.parse(localStorage.getItem('user')!);
-    const username = userData.username
-    const { user, fetchProfile } = useUserStore();
-    const sameUser = userData.id === user?.id;
-
-    // Estado para manejar apertura del modal de creación
+    
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
-    useEffect(() => {
-        fetchProfile(username);
-    }, [username, fetchProfile]);
+
     return (
         <aside className="md:w-72 md:border-gray-200 border-r w-full">
             <header className="flex justify-between items-center p-4">
@@ -48,7 +42,7 @@ export default function Sidebar() {
                         </Link>
                     </li>
                     <li >
-                        <SearchDrawer/>
+                        <SearchDrawer />
                     </li>
 
                     <li>
@@ -62,13 +56,7 @@ export default function Sidebar() {
                     </li>
 
                     <li>
-                        <Link
-                            href="/dashboard/notifications"
-                            className="flex items-center gap-2 w-full p-3 text-gray-600 dark:text-gray-400 text-base md:text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-sky-500 dark:hover:text-sky-500 rounded-md transition-colors"
-                        >
-                            <FaRegHeart className="size-6" />
-                            Notificaciones
-                        </Link>
+                        <NotificationDrawer />
                     </li>
                     <li>
                         <button
@@ -89,7 +77,7 @@ export default function Sidebar() {
                             href={`/dashboard/profile/${userData.username}`}
                             className="flex items-center gap-2 w-full p-3 text-gray-600 dark:text-gray-400 text-base md:text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-sky-500 dark:hover:text-sky-500 rounded-md transition-colors"
                         >
-                            <UserPortrait styles="w-6 h-6" image={sameUser ? user.image : userData.image} />
+                            <UserPortrait styles="w-6 h-6" image={userData.image} />
                             Perfil
                         </Link>
                     </li>

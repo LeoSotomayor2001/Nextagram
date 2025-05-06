@@ -65,3 +65,47 @@ export type ErrorsComment={
     post_id?: string[];
     general?: string[];
 }
+
+
+export type Notification = {
+    current_page: number;
+    data: NotificationItem[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: PaginationLink[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+  }
+  
+  export type NotificationItem = {
+    id: string;
+    type: string;
+    notifiable_type: string;
+    notifiable_id: number;
+    data: NotificationData;
+    read_at: string | null;
+    created_at: string;
+    updated_at: string;
+  }
+  
+  export type NotificationData = {
+    user_id: number;
+    post_id: number;
+    title: string;
+    image: string;
+    post_user_id: number;
+    post_user_username: string;
+    url: string;
+  }
+  
+  export type PaginationLink = {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }

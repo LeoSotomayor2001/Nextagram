@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import axiosInstance from "@/utils/axiosInstance";
-import { Post, User } from "@/types";
+import {  NotificationItem, Post, User } from "@/types";
 import axios from "axios";
 import { isCurrentUser } from "@/utils/utils";
 
@@ -11,10 +11,12 @@ interface UserState {
   loading: boolean;
   error: string | null;
   suggesteds: User[]
+  isFollowing: boolean;
+  notifications: NotificationItem[];
   fetchProfile: (username: string) => Promise<void>;
   fetchPosts: () => Promise<void>;
   fetchSuggesteds: () => Promise<void>;
-  isFollowing: boolean;
+  fetchNotifications: () => Promise<void>;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -25,6 +27,7 @@ export const useUserStore = create<UserState>((set) => ({
   error: null,
   isFollowing: false,
   suggesteds: [],
+  notifications: [],
 
   fetchProfile: async (username) => {
     set({
@@ -112,5 +115,30 @@ export const useUserStore = create<UserState>((set) => ({
     } finally {
       set({ loading: false });
     }
-  }
+  },
+  fetchNotifications: async () => {
+    set({
+      notifications: [],
+      error: null,
+    });
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axiosInstance.get(`/notifications`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      set({
+        notifications: response.data.data,
+        error: null,
+      });
+
+    }
+    catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        set({ error: err.response?.data?.error || "Error al cargar las notificaciones" });
+      }
+    } 
+  },
 }));
