@@ -24,7 +24,7 @@ export default function PostCard({ post }: Props) {
             onClick={() => handleClick(post.id)}
         >
             <CardHeader>
-                <CardTitle className="text-2xl">{post.title}</CardTitle>
+                <CardTitle className="text-2xl line-clamp-1">{post.title}</CardTitle>
                 <CardDescription className="text-xl text-gray-600 dark:text-gray-400 line-clamp-1">{post.description}</CardDescription>
             </CardHeader>
 

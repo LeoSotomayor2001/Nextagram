@@ -6,6 +6,8 @@ import { FaRegHeart } from 'react-icons/fa'
 import { useUserStore } from '@/stores/useUserStore';
 import Link from 'next/link';
 import UserPortrait from './UserProtrait';
+import axiosInstance from '@/utils/axiosInstance';
+import { toast } from 'react-toastify';
 
 export default function NotificationDrawer() {
     const { fetchNotifications, notifications } = useUserStore();
@@ -13,6 +15,26 @@ export default function NotificationDrawer() {
 
         fetchNotifications()
     }, [fetchNotifications]);
+
+    const handleMarkAsAllRead= async() => {
+        const token=localStorage.getItem('token')
+        try{
+            const response=await axiosInstance.post('/notifications/mark-all-as-read',{},{
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "multipart/form-data",
+                },
+              });
+              toast.success(response.data.message);
+              fetchNotifications()
+            
+        }
+        catch(error){
+            console.error('Error marking all notifications as read:', error);
+        }
+    }
+        
+
     return (
         <Drawer >
             <DrawerTrigger asChild>
@@ -25,7 +47,7 @@ export default function NotificationDrawer() {
                 <DialogTitle className="text-xl text-center font-semibold text-gray-900 dark:text-white mb-4">
                     Notificaciones
                 </DialogTitle>
-                <section >
+                <section className='overflow-y-auto'>
                     {notifications && notifications.length > 0 ? (
                         <ul className="mt-4 space-y-2">
                             {notifications.map((notification) => (
@@ -41,9 +63,13 @@ export default function NotificationDrawer() {
                             ))}
                         </ul>
                     ) : (
-                        <p className="mt-4 text-gray-500 dark:text-gray-400">No se encontraron resultados.</p>
+                        <p className="mt-4 text-gray-500 dark:text-gray-400">No se encontraron notificaciones.</p>
                     )}
                 </section>
+                    {notifications?.length >0 && (
+                        <button className='mt-5 cursor-pointer ' onClick={handleMarkAsAllRead}>Marcar todas como leidas</button>
+
+                    )}
             </DrawerContent>
 
         </Drawer>
