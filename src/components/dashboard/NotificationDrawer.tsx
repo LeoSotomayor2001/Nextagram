@@ -38,10 +38,10 @@ export default function NotificationDrawer() {
     return (
         <Drawer >
             <DrawerTrigger asChild>
-                <button  className="cursor-pointer flex items-center gap-2 w-full p-3 text-gray-600 dark:text-gray-400 text-base md:text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-sky-500 rounded-md transition-colors">
+                <p  className="cursor-pointer flex items-center gap-2 w-full p-3 text-gray-600 dark:text-gray-400 text-base md:text-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-sky-500 rounded-md transition-colors">
                     <FaRegHeart className="size-6" />
                     Notificaciones ({notifications?.length ?? 0})
-                </button>
+                </p>
             </DrawerTrigger>
             <DrawerContent className="w-full md:w-72 h-screen bg-white dark:bg-gray-900 p-6   top-0 shadow-lg">
                 <DialogTitle className="text-xl text-center font-semibold text-gray-900 dark:text-white mb-4">

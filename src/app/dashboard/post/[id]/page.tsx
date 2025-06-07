@@ -17,17 +17,19 @@ export default function Page() {
   const { id } = params;
   const { fetchPost, post, loading, error } = usePostStore();
 
-
   useEffect(() => {
     if (id) {
       fetchPost(+id);
-      if(post?.title) {
-        document.title = `${post?.title}`;
-      }
     }
-  }, [id, fetchPost, post?.title]);
+  }, [id, fetchPost]);
 
-  if (loading || !post) {
+  useEffect(() => {
+    if (post) {
+      document.title = post.title || "Post Details";
+    }
+  }, [post]);
+
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-white dark:bg-black">
         <Spinner />
@@ -96,8 +98,10 @@ export default function Page() {
           )}
         </div>
 
+          {post && (
+            <LikeButton post={post} />
 
-          <LikeButton post={post} />
+          )}
       </div>
       {post?.comments && (
         <PostComments styles="w-full lg:w-4/12 bg-gray-100 dark:bg-gray-900 p-6 rounded-2xl shadow-md flex flex-col" comments={post?.comments} postId={post.id} />

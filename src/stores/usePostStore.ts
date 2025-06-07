@@ -23,7 +23,7 @@ export const usePostStore = create<PostModalState>((set) => ({
 
 
   fetchPost: async (postId) => {
-    
+    set({ loading: true, error: null });
     const token = localStorage.getItem("token");
     try {
       const response = await axiosInstance.get(`/posts/${postId}`, {
